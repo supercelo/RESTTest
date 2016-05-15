@@ -35,10 +35,10 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
-        String code = ((EditText) findViewById(R.id.code)).getText().toString();
-        if (code.equals("")) {
+        String iso = ((EditText) findViewById(R.id.code)).getText().toString();
+        if (iso.equals("")) {
             btn.setClickable(false);
-            new Rest().execute("http://services.groupkt.com/country/get/iso2code/" + code);
+            new Rest().execute("http://services.groupkt.com/country/get/iso2code/" + iso);
         }
     }
 
