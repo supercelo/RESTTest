@@ -36,7 +36,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         String code = ((EditText) findViewById(R.id.code)).getText().toString();
-        if (code != "") {
+        if (code.equals("")) {
             btn.setClickable(false);
             new Rest().execute("http://services.groupkt.com/country/get/iso2code/" + code);
         }
@@ -50,8 +50,8 @@ public class MainActivity extends Activity implements View.OnClickListener {
                 // create connection
                 URL urlToRequest = new URL(urls[0]);
                 urlConnection = (HttpURLConnection) urlToRequest.openConnection();
-                urlConnection.setConnectTimeout(5000);
-                urlConnection.setReadTimeout(5000);
+                urlConnection.setConnectTimeout(3000);
+                urlConnection.setReadTimeout(3000);
 
                 // handle issues
                 int statusCode = urlConnection.getResponseCode();
@@ -63,8 +63,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
                 // create JSON object from content
                 InputStream in = new BufferedInputStream(urlConnection.getInputStream());
-                JSONObject json = new JSONObject(getResponseText(in));
-                return json;
+                return new JSONObject(getResponseText(in));
 
             } catch (MalformedURLException e) {
                 // URL is invalid
@@ -88,7 +87,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
         }
 
         protected void onPostExecute(JSONObject json) {
-            String result = "";
+            String result;
             try {
                 result = json.getJSONObject("RestResponse").getJSONObject("result").getString("name");
             } catch (JSONException e) {
